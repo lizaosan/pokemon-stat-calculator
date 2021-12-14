@@ -42,7 +42,7 @@
         <div><b>能力值</b><input v-model="getStat" type="number" readonly /></div>
     </div>
   </div>
-  <small>Last Edited by: Lizaosan 20211214 03:40PM</small>
+  <small>Last Edited by: Lizaosan 20211214 04:30PM</small>
 </template>
 
 <script>
