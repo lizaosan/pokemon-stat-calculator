@@ -81,6 +81,8 @@ export default {
 <style scoped>
 
 .input_wrapper {
+    max-width: 50rem;
+    margin: 0 auto;
     display: flex;
     flex-direction: row;
 }
