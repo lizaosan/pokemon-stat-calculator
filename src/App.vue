@@ -1,5 +1,5 @@
 <template>
-  <StatCalculator msg="Welcome to Your Vue.js App" />
+  <StatCalculator />
 </template>
 
 <script>
@@ -21,5 +21,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+input {
+  padding: 0;
+  margin: 0;
 }
 </style>
