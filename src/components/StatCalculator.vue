@@ -273,6 +273,13 @@
             }
           }
         }
+      },
+      "userIV":{
+        handler: function(val, oldVal){
+          console.log(`new: ${val.hp}, old: ${oldVal.hp}`)
+        },
+        deep: true
+        // 為什麼監聽起來怪怪的
       }
     },
     mounted() {
@@ -282,6 +289,13 @@
 </script>
 
 <style scoped>
+
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+
   input {
     text-align: center;
   }
@@ -296,11 +310,19 @@
     -moz-appearance: textfield;
   }
 
+  table {
+    margin-top: 1rem;
+  }
+
+  tr {
+    height: 1.5rem;
+  }
+
   .container {
     display: flex;
     flex-direction: column;
     max-width: 50rem;
-    margin: 0 auto;
+    margin: 1rem auto 0 auto;
   }
 
   .input_wrapper {
@@ -315,9 +337,7 @@
     margin-right: .25rem;
   }
 
-  table {
-    margin-top: 1rem;
-  }
+
 
   .ev_details {
     margin-top: 1rem;
@@ -334,4 +354,6 @@
   .text_blue {
     color: #007bff;
   }
+
+
 </style>
