@@ -23,9 +23,13 @@ export default {
   margin-top: 60px;
 }
 
-input {
+input, select{
   padding: 0;
   margin: 0;
+  -webkit-appearance: none;  /* Safari 和 Chrome，常用於iOS下移除內建樣式 */
+  -moz-appearance: none;     /* FireFox */
+  appearance: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
