@@ -120,7 +120,7 @@
         selectedStat: {
           stats: [{base_stat: 45},{base_stat: 49},{base_stat: 49},{base_stat: 65},{base_stat: 65},{base_stat: 45},]
         },
-        userIV: [31, 31, 31, 31, 31, 31 ],
+        userIV: [31, 31, 31, 31, 31, 31],
         userEV: [0, 0, 0, 0, 0, 0],
         level: 50,
         nature: "0",
@@ -151,8 +151,8 @@
       resetAll() {
         this.level = 50;
         this.nature = "0";
-        this.userIV = [31, 31, 31, 31, 31, 31];
-        this.userEV = [0, 0, 0, 0, 0, 0];
+        this.$data.userIV = this.$options.data().userIV;
+        this.$data.userEV = this.$options.data().userEV;
       },
       updateIV(val, order) {
         this.userIV[order] = val;
@@ -165,37 +165,37 @@
       getHP() {
         let vm = this;
         let result = null;
-        result = vm.userIV[0] === '' ? "錯誤" : Math.floor((Math.floor(vm.selectedStat.stats[0].base_stat * 2 + vm.userIV[0] + vm.userEV[0] / 4) * vm.level) / 100) + 10 + vm.level;
+        result = vm.userIV[0] === '' || vm.userEV[0] === '' ? "錯誤" : Math.floor((Math.floor(vm.selectedStat.stats[0].base_stat * 2 + vm.userIV[0] + vm.userEV[0] / 4) * vm.level) / 100) + 10 + vm.level;
         return result;
       },
       getAtk() {
         let vm = this;
         let result = null;
-        result = vm.userIV[1] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[1].base_stat * 2 + vm.userIV[1] + vm.userEV[1] / 4) * vm.level) / 100) + 5) * vm.naturePatch[0]);
+        result = vm.userIV[1] === '' || vm.userEV[1] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[1].base_stat * 2 + vm.userIV[1] + vm.userEV[1] / 4) * vm.level) / 100) + 5) * vm.naturePatch[0]);
         return result;
       },
       getDef() {
         let vm = this;
         let result = null;
-        result = vm.userIV[2] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[2].base_stat * 2 + vm.userIV[2] + vm.userEV[2] / 4) * vm.level) / 100) + 5) * vm.naturePatch[1]);
+        result = vm.userIV[2] === '' || vm.userEV[2] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[2].base_stat * 2 + vm.userIV[2] + vm.userEV[2] / 4) * vm.level) / 100) + 5) * vm.naturePatch[1]);
         return result;
       },
       getSpAtk() {
         let vm = this;
         let result = null;
-        result = vm.userIV[3] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[3].base_stat * 2 + vm.userIV[3] + vm.userEV[3] / 4) * vm.level) / 100) + 5) * vm.naturePatch[2]);
+        result = vm.userIV[3] === '' || vm.userEV[3] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[3].base_stat * 2 + vm.userIV[3] + vm.userEV[3] / 4) * vm.level) / 100) + 5) * vm.naturePatch[2]);
         return result;
       },
       getSpDef() {
         let vm = this;
         let result = null;
-        result = vm.userIV[4] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[4].base_stat * 2 + vm.userIV[4] + vm.userEV[4] / 4) * vm.level) / 100) + 5) * vm.naturePatch[3]);
+        result = vm.userIV[4] === '' || vm.userEV[4] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[4].base_stat * 2 + vm.userIV[4] + vm.userEV[4] / 4) * vm.level) / 100) + 5) * vm.naturePatch[3]);
         return result;
       },
       getSpd() {
         let vm = this;
         let result = null;
-        result = vm.userIV[5] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[5].base_stat * 2 + vm.userIV[5] + vm.userEV[5] / 4) * vm.level) / 100) + 5) * vm.naturePatch[4]);
+        result = vm.userIV[5] === '' || vm.userEV[5] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[5].base_stat * 2 + vm.userIV[5] + vm.userEV[5] / 4) * vm.level) / 100) + 5) * vm.naturePatch[4]);
         return result;
       },
       EVSum() {
