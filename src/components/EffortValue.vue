@@ -1,5 +1,10 @@
 <template>
-	<td><input v-model="ev" type="number" min="0" max="252" maxlength="2" /></td>
+	<td>
+		<!-- <input v-model="ev" type="number" min="0" max="252" maxlength="2" /> -->
+		<select v-model="ev">
+			<option v-for="(item, index) in 64" :key="index * 4">{{index * 4}}</option>
+		</select>
+	</td>
 </template>
 <script>
 	export default {
@@ -24,21 +29,21 @@
 </script>
 
 <style scoped>
-  input {
-    text-align: center;
-  }
+	input {
+		text-align: center;
+	}
 
 	input:focus {
 		outline: none;
 	}
 
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
 
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
+	input[type=number] {
+		-moz-appearance: textfield;
+	}
 </style>
