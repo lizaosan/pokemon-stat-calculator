@@ -53,43 +53,43 @@
         <tr>
           <td>HP</td>
           <td>{{selectedStat.stats[0].base_stat}}</td>
-          <td><input v-model="userIV.hp" type="number" min="0" max="31" /></td>
-          <td><input v-model="userEV.hp" type="number" min="0" max="252" /></td>
+          <individualValue :parent-msg="userIV[0]" iv-order="0" @update="updateIV"></individualValue>
+          <effortValue :parent-msg="userEV[0]" ev-order="0" @update="updateEV"></effortValue>
           <td>{{getHP}}</td>
         </tr>
         <tr>
           <td>攻擊</td>
           <td>{{selectedStat.stats[1].base_stat}}</td>
-          <td><input v-model="userIV.atk" type="number" min="0" max="31" /></td>
-          <td><input v-model="userEV.atk" type="number" min="0" max="252" /></td>
+          <individualValue :parent-msg="userIV[1]" iv-order="1" @update="updateIV"></individualValue>
+          <effortValue :parent-msg="userEV[1]" ev-order="1" @update="updateEV"></effortValue>
           <td :class="{'text_red': naturePatch[0] == 1.1 , 'text_blue' : naturePatch[0] == 0.9}">{{getAtk}}</td>
         </tr>
         <tr>
           <td>防禦</td>
           <td>{{selectedStat.stats[2].base_stat}}</td>
-          <td><input v-model="userIV.def" type="number" min="0" max="31" /></td>
-          <td><input v-model="userEV.def" type="number" min="0" max="252" /></td>
+          <individualValue :parent-msg="userIV[2]" iv-order="2" @update="updateIV"></individualValue>
+          <effortValue :parent-msg="userEV[2]" ev-order="2" @update="updateEV"></effortValue>
           <td :class="{'text_red': naturePatch[1] == 1.1 , 'text_blue' : naturePatch[1] == 0.9}">{{getDef}}</td>
         </tr>
         <tr>
           <td>特攻</td>
           <td>{{selectedStat.stats[3].base_stat}}</td>
-          <td><input v-model="userIV.spatk" type="number" min="0" max="31" /></td>
-          <td><input v-model="userEV.spatk" type="number" min="0" max="252" /></td>
+          <individualValue :parent-msg="userIV[3]" iv-order="3" @update="updateIV"></individualValue>
+          <effortValue :parent-msg="userEV[3]" ev-order="3" @update="updateEV"></effortValue>
           <td :class="{'text_red': naturePatch[2] == 1.1 , 'text_blue' : naturePatch[2] == 0.9}">{{getSpAtk}}</td>
         </tr>
         <tr>
           <td>特防</td>
           <td>{{selectedStat.stats[4].base_stat}}</td>
-          <td><input v-model="userIV.spdef" type="number" min="0" max="31" /></td>
-          <td><input v-model="userEV.spdef" type="number" min="0" max="252" /></td>
+          <individualValue :parent-msg="userIV[4]" iv-order="4" @update="updateIV"></individualValue>
+          <effortValue :parent-msg="userEV[4]" ev-order="4" @update="updateEV"></effortValue>
           <td :class="{'text_red': naturePatch[3] == 1.1 , 'text_blue' : naturePatch[3] == 0.9}">{{getSpDef}}</td>
         </tr>
         <tr>
           <td>速度</td>
           <td>{{selectedStat.stats[5].base_stat}}</td>
-          <td><input v-model="userIV.spd" type="number" min="0" max="31" /></td>
-          <td><input v-model="userEV.spd" type="number" min="0" max="252" /></td>
+          <individualValue :parent-msg="userIV[5]" iv-order="5" @update="updateIV"></individualValue>
+          <effortValue :parent-msg="userEV[5]" ev-order="5" @update="updateEV"></effortValue>
           <td :class="{'text_red': naturePatch[4] == 1.1 , 'text_blue' : naturePatch[4] == 0.9}">{{getSpd}}</td>
         </tr>
       </tbody>
@@ -98,56 +98,30 @@
       努力值總計 <span>{{EVSum}}</span> / 剩餘努力值 <span>{{EVLast}}</span>
     </small>
     <div class="reset_btn">
-      <button @click="resetAll">重置</button>
+     <button @click="resetAll">重置</button>
     </div>
   </main>
 </template>
 
 <script>
+  import individualValue from "./IndividualValue.vue";
+  import effortValue from "./EffortValue.vue";
+
   export default {
     name: 'statCalculator',
+    components: {
+      individualValue, effortValue
+    },
     data() {
       return {
         zhHantJsonUrl: "json/zh-hant.json",
         zhHantName: [],
         selectedPM: "1",
         selectedStat: {
-          stats: [{
-              base_stat: 45
-            },
-            {
-              base_stat: 49
-            },
-            {
-              base_stat: 49
-            },
-            {
-              base_stat: 65
-            },
-            {
-              base_stat: 65
-            },
-            {
-              base_stat: 45
-            },
-          ]
+          stats: [{base_stat: 45},{base_stat: 49},{base_stat: 49},{base_stat: 65},{base_stat: 65},{base_stat: 45},]
         },
-        userIV: {
-          hp: 31,
-          atk: 31,
-          def: 31,
-          spatk: 31,
-          spdef: 31,
-          spd: 31
-        },
-        userEV: {
-          hp: 0,
-          atk: 0,
-          def: 0,
-          spatk: 0,
-          spdef: 0,
-          spd: 0
-        },
+        userIV: [31, 31, 31, 31, 31, 31 ],
+        userEV: [0, 0, 0, 0, 0, 0],
         level: 50,
         nature: "0",
         naturePatch: [1, 1, 1, 1, 1],
@@ -175,81 +149,65 @@
           });
       },
       resetAll() {
-        this.selectedPM = 1;
         this.level = 50;
         this.nature = "0";
-        this.userIV = {
-          hp: 31,
-          atk: 31,
-          def: 31,
-          spatk: 31,
-          spdef: 31,
-          spd: 31
-        };
-        this.userEV = {
-          hp: 0,
-          atk: 0,
-          def: 0,
-          spatk: 0,
-          spdef: 0,
-          spd: 0
-        }
-      }
+        this.userIV = [31, 31, 31, 31, 31, 31];
+        this.userEV = [0, 0, 0, 0, 0, 0];
+      },
+      updateIV(val, order) {
+        this.userIV[order] = val;
+      },
+      updateEV(val, order) {
+        this.userEV[order] = val;
+      },
     },
     computed: {
       getHP() {
         let vm = this;
-        return (
-          Math.floor((Math.floor(vm.selectedStat.stats[0].base_stat * 2 + vm.userIV.hp + vm.userEV.hp / 4) * vm
-            .level) / 100) + 10 + vm.level);
+        let result = null;
+        result = vm.userIV[0] === '' ? "錯誤" : Math.floor((Math.floor(vm.selectedStat.stats[0].base_stat * 2 + vm.userIV[0] + vm.userEV[0] / 4) * vm.level) / 100) + 10 + vm.level;
+        return result;
       },
       getAtk() {
         let vm = this;
-        return (
-          Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[1].base_stat * 2 + vm.userIV.atk + vm.userEV.atk /
-            4) * vm.level) / 100) + 5) * vm.naturePatch[0])
-        );
+        let result = null;
+        result = vm.userIV[1] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[1].base_stat * 2 + vm.userIV[1] + vm.userEV[1] / 4) * vm.level) / 100) + 5) * vm.naturePatch[0]);
+        return result;
       },
       getDef() {
         let vm = this;
-        return (
-          Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[2].base_stat * 2 + vm.userIV.def + vm.userEV.def /
-            4) * vm.level) / 100) + 5) * vm.naturePatch[1])
-        );
+        let result = null;
+        result = vm.userIV[2] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[2].base_stat * 2 + vm.userIV[2] + vm.userEV[2] / 4) * vm.level) / 100) + 5) * vm.naturePatch[1]);
+        return result;
       },
       getSpAtk() {
         let vm = this;
-        return (
-          Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[3].base_stat * 2 + vm.userIV.spatk + vm.userEV
-            .spatk /
-            4) * vm.level) / 100) + 5) * vm.naturePatch[2])
-        );
+        let result = null;
+        result = vm.userIV[3] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[3].base_stat * 2 + vm.userIV[3] + vm.userEV[3] / 4) * vm.level) / 100) + 5) * vm.naturePatch[2]);
+        return result;
       },
       getSpDef() {
         let vm = this;
-        return (
-          Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[4].base_stat * 2 + vm.userIV.spdef + vm.userEV
-            .spdef /
-            4) * vm.level) / 100) + 5) * vm.naturePatch[3])
-        );
+        let result = null;
+        result = vm.userIV[4] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[4].base_stat * 2 + vm.userIV[4] + vm.userEV[4] / 4) * vm.level) / 100) + 5) * vm.naturePatch[3]);
+        return result;
       },
       getSpd() {
         let vm = this;
-        return (
-          Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[5].base_stat * 2 + vm.userIV.spd + vm.userEV.spd /
-            4) * vm.level) / 100) + 5) * vm.naturePatch[4])
-        );
+        let result = null;
+        result = vm.userIV[5] === '' ? "錯誤" : Math.floor((Math.floor((Math.floor(vm.selectedStat.stats[5].base_stat * 2 + vm.userIV[5] + vm.userEV[5] / 4) * vm.level) / 100) + 5) * vm.naturePatch[4]);
+        return result;
       },
       EVSum() {
         let vm = this;
         return (
-          vm.userEV.hp + vm.userEV.atk + vm.userEV.def + vm.userEV.spatk + vm.userEV.spdef + vm.userEV.spd
+          vm.userEV[0] + vm.userEV[1] + vm.userEV[2] + vm.userEV[3] + vm.userEV[4] + vm.userEV[5]
         );
       },
       EVLast() {
         let vm = this;
         return (
-          510 - (vm.userEV.hp + vm.userEV.atk + vm.userEV.def + vm.userEV.spatk + vm.userEV.spdef + vm.userEV.spd)
+          510 - (vm.userEV[0] + vm.userEV[1] + vm.userEV[2] + vm.userEV[3] + vm.userEV[4] + vm.userEV[5])
         );
       }
     },
@@ -274,12 +232,11 @@
           }
         }
       },
-      "userIV":{
-        handler: function(val, oldVal){
-          console.log(`new: ${val.hp}, old: ${oldVal.hp}`)
-        },
-        deep: true
-        // 為什麼監聽起來怪怪的
+      "level": {
+        handler: function (val) {
+          val < 0 && (this.level = 1)
+					val > 100 && (this.level = 100);
+        }
       }
     },
     mounted() {
@@ -299,6 +256,10 @@
   input {
     text-align: center;
   }
+
+	input:focus {
+		outline: none;
+	}
 
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
@@ -336,8 +297,6 @@
   .input_wrapper span {
     margin-right: .25rem;
   }
-
-
 
   .ev_details {
     margin-top: 1rem;
