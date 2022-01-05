@@ -53,43 +53,43 @@
         <tr>
           <td>HP</td>
           <td>{{selectedStat.stats[0].base_stat}}</td>
-          <individualValue :parent-msg="userIV[0]" iv-order="0" @update="updateIV"></individualValue>
-          <effortValue :parent-msg="userEV[0]" ev-order="0" @update="updateEV"></effortValue>
+          <individualValue :parent-msg="userIV[0]" iv-order="0" @update="updateIV" :key="resetFrequency"></individualValue>
+          <effortValue :parent-msg="userEV[0]" ev-order="0" @update="updateEV" :key="resetFrequency"></effortValue>
           <td>{{getHP}}</td>
         </tr>
         <tr>
           <td>攻擊</td>
           <td>{{selectedStat.stats[1].base_stat}}</td>
-          <individualValue :parent-msg="userIV[1]" iv-order="1" @update="updateIV"></individualValue>
-          <effortValue :parent-msg="userEV[1]" ev-order="1" @update="updateEV"></effortValue>
+          <individualValue :parent-msg="userIV[1]" iv-order="1" @update="updateIV" :key="resetFrequency"></individualValue>
+          <effortValue :parent-msg="userEV[1]" ev-order="1" @update="updateEV" :key="resetFrequency"></effortValue>
           <td :class="{'text_red': naturePatch[0] == 1.1 , 'text_blue' : naturePatch[0] == 0.9}">{{getAtk}}</td>
         </tr>
         <tr>
           <td>防禦</td>
           <td>{{selectedStat.stats[2].base_stat}}</td>
-          <individualValue :parent-msg="userIV[2]" iv-order="2" @update="updateIV"></individualValue>
-          <effortValue :parent-msg="userEV[2]" ev-order="2" @update="updateEV"></effortValue>
+          <individualValue :parent-msg="userIV[2]" iv-order="2" @update="updateIV" :key="resetFrequency"></individualValue>
+          <effortValue :parent-msg="userEV[2]" ev-order="2" @update="updateEV" :key="resetFrequency"></effortValue>
           <td :class="{'text_red': naturePatch[1] == 1.1 , 'text_blue' : naturePatch[1] == 0.9}">{{getDef}}</td>
         </tr>
         <tr>
           <td>特攻</td>
           <td>{{selectedStat.stats[3].base_stat}}</td>
-          <individualValue :parent-msg="userIV[3]" iv-order="3" @update="updateIV"></individualValue>
-          <effortValue :parent-msg="userEV[3]" ev-order="3" @update="updateEV"></effortValue>
+          <individualValue :parent-msg="userIV[3]" iv-order="3" @update="updateIV" :key="resetFrequency"></individualValue>
+          <effortValue :parent-msg="userEV[3]" ev-order="3" @update="updateEV" :key="resetFrequency"></effortValue>
           <td :class="{'text_red': naturePatch[2] == 1.1 , 'text_blue' : naturePatch[2] == 0.9}">{{getSpAtk}}</td>
         </tr>
         <tr>
           <td>特防</td>
           <td>{{selectedStat.stats[4].base_stat}}</td>
-          <individualValue :parent-msg="userIV[4]" iv-order="4" @update="updateIV"></individualValue>
-          <effortValue :parent-msg="userEV[4]" ev-order="4" @update="updateEV"></effortValue>
+          <individualValue :parent-msg="userIV[4]" iv-order="4" @update="updateIV" :key="resetFrequency"></individualValue>
+          <effortValue :parent-msg="userEV[4]" ev-order="4" @update="updateEV" :key="resetFrequency"></effortValue>
           <td :class="{'text_red': naturePatch[3] == 1.1 , 'text_blue' : naturePatch[3] == 0.9}">{{getSpDef}}</td>
         </tr>
         <tr>
           <td>速度</td>
           <td>{{selectedStat.stats[5].base_stat}}</td>
-          <individualValue :parent-msg="userIV[5]" iv-order="5" @update="updateIV"></individualValue>
-          <effortValue :parent-msg="userEV[5]" ev-order="5" @update="updateEV"></effortValue>
+          <individualValue :parent-msg="userIV[5]" iv-order="5" @update="updateIV" :key="resetFrequency"></individualValue>
+          <effortValue :parent-msg="userEV[5]" ev-order="5" @update="updateEV" :key="resetFrequency"></effortValue>
           <td :class="{'text_red': naturePatch[4] == 1.1 , 'text_blue' : naturePatch[4] == 0.9}">{{getSpd}}</td>
         </tr>
       </tbody>
@@ -125,6 +125,7 @@
         level: 50,
         nature: "0",
         naturePatch: [1, 1, 1, 1, 1],
+        resetFrequency: 0,
       };
     },
     methods: {
@@ -153,6 +154,7 @@
         this.nature = "0";
         this.$data.userIV = this.$options.data().userIV;
         this.$data.userEV = this.$options.data().userEV;
+        this.resetFrequency += 1;
       },
       updateIV(val, order) {
         this.userIV[order] = val;
