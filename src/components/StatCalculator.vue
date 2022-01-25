@@ -305,7 +305,7 @@
   .container {
     display: flex;
     flex-direction: column;
-    max-width: 50rem;
+    max-width: 36rem;
     margin: 1rem auto 0 auto;
   }
 
