@@ -5,8 +5,8 @@
       <div>
         <span>寶可夢</span>
         <select v-model="selectedPM">
-          <option v-for="(item, index) in zhHantName" :key="index" :value="index + 1">
-            {{ 9 > index ? "00" + (index + 1) : 99 > index ? "0" + (index + 1) : index + 1 }} - {{ item }}</option>
+          <option v-for="(item, index) in jsonData.data" :key="index" :value="item.jsonid">
+            {{ item.ndex }} - {{ item.cht }}</option>
         </select>
       </div>
       <div>
@@ -118,8 +118,8 @@
     },
     data() {
       return {
-        zhHantJsonUrl: "json/zh-hant.json",
-        zhHantName: [],
+        jsonUrl: "json/pokemon-json.json",
+        jsonData: [],
         selectedPM: "1",
         selectedStat: {
           stats: [{base_stat: 45},{base_stat: 49},{base_stat: 49},{base_stat: 65},{base_stat: 65},{base_stat: 45},]
@@ -133,14 +133,14 @@
       };
     },
     methods: {
-      getzhHantNameJson(uri) {
+      getJson(uri) {
         let vm = this;
         fetch(uri)
           .then(function (response) {
             return response.json();
           })
           .then(function (msg) {
-            vm.zhHantName = msg;
+            vm.jsonData = msg;
           });
       },
       getSelectedStatJson(uri) {
@@ -246,7 +246,7 @@
       }
     },
     mounted() {
-      this.getzhHantNameJson(this.zhHantJsonUrl);
+      this.getJson(this.jsonUrl);
     }
   };
 </script>
