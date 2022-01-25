@@ -9,6 +9,7 @@
             {{ item.ndex }} - {{ item.cht }}</option>
         </select>
       </div>
+      <div class="inner_wrap">
       <div>
         <span>等級</span>
         <!-- <input v-model="level" type="number" min="1" max="100" /> -->
@@ -42,6 +43,8 @@
           <option :value="54">+S-D 天真</option>
         </select>
       </div>
+      </div>
+      
     </div>
     <table>
       <thead>
@@ -258,7 +261,6 @@
     font-weight: bold;
   }
 
-
   input {
     text-align: center;
   }
@@ -296,12 +298,24 @@
     width: 100%;
     margin: 0 auto;
     display: flex;
-    flex: 1;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
   }
 
   .input_wrapper span {
     margin-right: .25rem;
+  }
+
+  .inner_wrap {
+    display: flex;
+    flex: 1;
+    justify-content:center;
+    width: 100%;
+    margin-top: .25rem;
+  }
+
+  .inner_wrap>div:not(:first-child) {
+    margin-left: 1rem;
   }
 
   .ev_details {
