@@ -4,62 +4,49 @@
     <div class="input_wrapper">
       <div class="inner_wrap">
         <div>
-          <span>世代</span>
-          <select v-model="selectedPM">
-            <option value="1"> 1 </option>
-            <option value="152"> 2 </option>
-            <option value="252"> 3 </option>
-            <option value="387"> 4 </option>
-            <option value="495"> 5 </option>
-            <option value="650"> 6 </option>
-            <option value="722"> 7 </option>
-            <option value="810"> 8 </option>
-          </select>
-        </div>
-        <div>
-          <span>寶可夢</span>
-          <select v-model="selectedPM">
-            <option v-for="(item, index) in jsonData.data" :key="index" :value="item.jsonid">
+          <input class="keyword" type="text" placeholder="搜尋寶可夢" v-model="keyword">
+
+          <select class="selectedPM" v-model="selectedPM">
+            <option v-for="(item, index) in filteredJsonData" :key="index" :value="item.jsonid">
               {{ item.ndex }} - {{ item.cht }}</option>
           </select>
         </div>
       </div>
       <div class="inner_wrap">
-      <div>
-        <span>等級</span>
-        <!-- <input v-model="level" type="number" min="1" max="100" /> -->
-        <select v-model="level">
-           <option v-for="(item, index) in 50" :key="index + 1">{{index + 1 }}</option>
-        </select>
+        <div>
+          <span>等級</span>
+          <!-- <input v-model="level" type="number" min="1" max="100" /> -->
+          <select v-model="level">
+            <option v-for="(item, index) in 50" :key="index + 1">{{index + 1 }}</option>
+          </select>
+        </div>
+        <div>
+          <span>性格</span>
+          <select v-model="nature">
+            <option :value="0">不加不減</option>
+            <option :value="12">+A-B 怕寂寞</option>
+            <option :value="13">+A-C 固執</option>
+            <option :value="14">+A-D 頑皮</option>
+            <option :value="15">+A-S 勇敢</option>
+            <option :value="21">+B-A 大膽</option>
+            <option :value="23">+B-C 淘氣</option>
+            <option :value="24">+B-D 樂天</option>
+            <option :value="25">+B-S 悠閒</option>
+            <option :value="31">+C-A 內斂</option>
+            <option :value="32">+C-B 慢吞吞</option>
+            <option :value="34">+C-D 馬虎</option>
+            <option :value="35">+C-S 冷靜</option>
+            <option :value="41">+D-A 溫和</option>
+            <option :value="42">+D-B 溫順</option>
+            <option :value="43">+D-C 慎重</option>
+            <option :value="45">+D-S 自大</option>
+            <option :value="51">+S-A 膽小</option>
+            <option :value="52">+S-B 急躁</option>
+            <option :value="53">+S-C 爽朗</option>
+            <option :value="54">+S-D 天真</option>
+          </select>
+        </div>
       </div>
-      <div>
-        <span>性格</span>
-        <select v-model="nature">
-          <option :value="0">不加不減</option>
-          <option :value="12">+A-B 怕寂寞</option>
-          <option :value="13">+A-C 固執</option>
-          <option :value="14">+A-D 頑皮</option>
-          <option :value="15">+A-S 勇敢</option>
-          <option :value="21">+B-A 大膽</option>
-          <option :value="23">+B-C 淘氣</option>
-          <option :value="24">+B-D 樂天</option>
-          <option :value="25">+B-S 悠閒</option>
-          <option :value="31">+C-A 內斂</option>
-          <option :value="32">+C-B 慢吞吞</option>
-          <option :value="34">+C-D 馬虎</option>
-          <option :value="35">+C-S 冷靜</option>
-          <option :value="41">+D-A 溫和</option>
-          <option :value="42">+D-B 溫順</option>
-          <option :value="43">+D-C 慎重</option>
-          <option :value="45">+D-S 自大</option>
-          <option :value="51">+S-A 膽小</option>
-          <option :value="52">+S-B 急躁</option>
-          <option :value="53">+S-C 爽朗</option>
-          <option :value="54">+S-D 天真</option>
-        </select>
-      </div>
-      </div>
-      
     </div>
     <table>
       <thead>
@@ -136,8 +123,19 @@
     },
     data() {
       return {
+        keyword: "",
         jsonUrl: "json/pokemon-json.json",
-        jsonData: [],
+        jsonData: {
+          "data": [
+            {
+              "ndex": "001",
+              "cht": "妙蛙種子",
+              "jp": "フシギダネ",
+              "en": "Bulbasaur",
+              "jsonid": "1"
+            }
+          ]
+        },
         selectedPM: "1",
         selectedStat: {
           stats: [{base_stat: 45},{base_stat: 49},{base_stat: 49},{base_stat: 65},{base_stat: 65},{base_stat: 45},]
@@ -186,6 +184,11 @@
       },
     },
     computed: {
+      filteredJsonData() {
+        let vm = this;
+        let answer = vm.jsonData.data.filter(obj => obj.cht.indexOf(this.keyword) === 0)
+        return answer
+      },
       getHP() {
         let vm = this;
         let result = null;
@@ -261,6 +264,13 @@
           val < 0 && (this.level = 1)
 					val > 100 && (this.level = 100);
         }
+      },
+      "filteredJsonData" : {
+        handler: function (val) {
+          if (val.length != 0) {
+            this.selectedPM = val[0].jsonid;
+          }
+        }
       }
     },
     mounted() {
@@ -295,7 +305,7 @@
   }
 
   table {
-    margin-top: 1rem;
+    margin-top: 0.36rem;
   }
 
   tr {
@@ -331,6 +341,21 @@
 
   .inner_wrap>div:not(:first-child) {
     margin-left: 1rem;
+  }
+
+  .keyword {
+    padding: 0;
+    border: 0;
+    margin: 0;
+    width: 6rem;
+    border-bottom: 1px solid #ccc;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  .selectedPM {
+    width: 15rem;
+    margin-inline-start: 1rem;
   }
 
   .ev_details {
