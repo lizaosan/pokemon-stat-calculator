@@ -254,7 +254,7 @@
 <style scoped>
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: bold;
   }
 

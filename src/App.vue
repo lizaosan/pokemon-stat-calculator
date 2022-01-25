@@ -20,7 +20,6 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
   }
 
   /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
