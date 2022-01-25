@@ -2,12 +2,27 @@
   <h1>Pokemon Stat Calculator</h1>
   <main class="container">
     <div class="input_wrapper">
-      <div>
-        <span>寶可夢</span>
-        <select v-model="selectedPM">
-          <option v-for="(item, index) in jsonData.data" :key="index" :value="item.jsonid">
-            {{ item.ndex }} - {{ item.cht }}</option>
-        </select>
+      <div class="inner_wrap">
+        <div>
+          <span>世代</span>
+          <select v-model="selectedPM">
+            <option value="1"> 1 </option>
+            <option value="152"> 2 </option>
+            <option value="252"> 3 </option>
+            <option value="387"> 4 </option>
+            <option value="495"> 5 </option>
+            <option value="650"> 6 </option>
+            <option value="722"> 7 </option>
+            <option value="810"> 8 </option>
+          </select>
+        </div>
+        <div>
+          <span>寶可夢</span>
+          <select v-model="selectedPM">
+            <option v-for="(item, index) in jsonData.data" :key="index" :value="item.jsonid">
+              {{ item.ndex }} - {{ item.cht }}</option>
+          </select>
+        </div>
       </div>
       <div class="inner_wrap">
       <div>
