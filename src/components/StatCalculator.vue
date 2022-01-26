@@ -8,7 +8,7 @@
 
           <select class="selectedPM" v-model="selectedPM">
             <option v-for="(item, index) in filteredJsonData" :key="index" :value="item.jsonid">
-              {{ item.ndex }} - {{ item.cht }}</option>
+              {{ item.ndex }} {{ item.cht }}</option>
           </select>
         </div>
       </div>
@@ -316,7 +316,7 @@
     display: flex;
     flex-direction: column;
     max-width: 36rem;
-    margin: 1rem auto 0 auto;
+    margin: 0 auto;
   }
 
   .input_wrapper {
@@ -351,6 +351,7 @@
     border-bottom: 1px solid #ccc;
     font-size: 1rem;
     font-style: italic;
+    border-radius: 0;
   }
 
   .selectedPM {
