@@ -17,7 +17,7 @@
           <span>等級</span>
           <!-- <input v-model="level" type="number" min="1" max="100" /> -->
           <select v-model="level">
-            <option v-for="(item, index) in 50" :key="index + 1">{{index + 1 }}</option>
+            <option v-for="(item, index) in 100" :key="index + 1">{{index + 1 }}</option>
           </select>
         </div>
         <div>
