@@ -4,11 +4,18 @@
     <div class="input_wrapper">
       <div class="inner_wrap">
         <div>
-          <input class="keyword" type="text" placeholder="搜尋寶可夢" v-model="keyword">
-
+          <input class="pmkeyword" type="text" placeholder="搜尋寶可夢" v-model="pmkeyword">
           <select class="selectedPM" v-model="selectedPM">
-            <option v-for="(item, index) in filteredJsonData" :key="index" :value="item.jsonid">
+            <option v-for="(item, index) in filteredpmJsonData" :key="index" :value="item.jsonid">
               {{ item.ndex }} {{ item.cht }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="inner_wrap">
+        <div>
+          <input class="pmkeyword" type="text" placeholder="搜尋道具" v-model="itemkeyword">
+          <select class="selectedPM" v-model="selectedItem">
+            <option v-for="(item, index) in filteredItemJsonData" :key="index" :value="item.cht">{{ item.cht }}</option>
           </select>
         </div>
       </div>
@@ -22,7 +29,7 @@
         </div>
         <div>
           <span>性格</span>
-          <select v-model="nature">
+          <select class="select-sm" v-model="nature">
             <option :value="0">不加不減</option>
             <option :value="12">+A-B 怕寂寞</option>
             <option :value="13">+A-C 固執</option>
@@ -44,6 +51,13 @@
             <option :value="52">+S-B 急躁</option>
             <option :value="53">+S-C 爽朗</option>
             <option :value="54">+S-D 天真</option>
+          </select>
+        </div>
+        <div>
+          <span>特性</span>
+          <!-- <input v-model="level" type="number" min="1" max="100" /> -->
+          <select class="select-sm" v-model="ability">
+            <option v-for="(item, index) in filteredAbilityJsonData" :key="index + 1" :value="item">{{ item }}</option>
           </select>
         </div>
       </div>
@@ -126,9 +140,10 @@
     },
     data() {
       return {
-        keyword: "",
-        jsonUrl: "json/pokemon-json.json",
-        jsonData: {
+        pmkeyword: "",
+        itemkeyword: "",
+        pmJsonUrl: "json/pokemon-json.json",
+        pmJsonData: {
           "data": [
             {
               "ndex": "001",
@@ -139,15 +154,41 @@
             }
           ]
         },
+        itemJsonUrl: "json/item-json.json",
+        itemJsonData: {
+          "data": [
+            {
+                "index": "1",
+                "cht": "光粉",
+                "jp": "ひかりのこな",
+                "en": "Bright Powder"
+            }
+          ]
+        },
+        abilityJsonUrl: "json/ability-json.json",
+        abilityJsonData : {
+          "data": [
+            {
+                "index": "1",
+                "cht": "惡臭",
+                "jp": "あくしゅう",
+                "en": "Stench",
+                "lower": "stench"
+            }
+          ]
+        },
         selectedPM: "1",
+        selectedItem: "",
         selectedStat: {
-          stats: [{base_stat: 45},{base_stat: 49},{base_stat: 49},{base_stat: 65},{base_stat: 65},{base_stat: 45},]
+          stats: [{base_stat: 45},{base_stat: 49},{base_stat: 49},{base_stat: 65},{base_stat: 65},{base_stat: 45},],
+          abilities:[{ability:{name:"overgrow"}},{ability:{name:"chlorophyll"}}]
         },
         userIV: [31, 31, 31, 31, 31, 31],
         userEV: [0, 0, 0, 0, 0, 0],
         level: 50,
         nature: "0",
         naturePatch: [1, 1, 1, 1, 1],
+        ability: "茂盛",
         resetFrequency: 0,
       };
     },
@@ -159,7 +200,13 @@
             return response.json();
           })
           .then(function (msg) {
-            vm.jsonData = msg;
+            if (uri == vm.pmJsonUrl) {
+              vm.pmJsonData = msg;
+            } else if (uri == vm.itemJsonUrl) {
+              vm.itemJsonData = msg;
+            } else if (uri == vm.abilityJsonUrl) {
+              vm.abilityJsonData = msg;
+            }
           });
       },
       getSelectedStatJson(uri) {
@@ -187,16 +234,39 @@
       },
     },
     computed: {
-      filteredJsonData() {
+      filteredpmJsonData() {
         let vm = this;
-        let answer = null;
+        let result = null;
         let tags = ["超級", "超極巨", "阿羅拉", "伽勒爾"];
-        if (tags.includes(this.keyword)) {
-          answer = vm.jsonData.data.filter(obj => obj.cht.indexOf(this.keyword) !== -1)
+        if (tags.includes(this.pmkeyword)) {
+          result = vm.pmJsonData.data.filter(obj => obj.cht.indexOf(this.pmkeyword) !== -1)
         } else {
-          answer = vm.jsonData.data.filter(obj => obj.cht.indexOf(this.keyword) === 0)
+          result = vm.pmJsonData.data.filter(obj => obj.cht.indexOf(this.pmkeyword) === 0)
         }
-        return answer
+        return result
+      },
+      filteredItemJsonData() {
+        let vm = this;
+        let result = null;
+        result = vm.itemJsonData.data.filter(obj => obj.cht.indexOf(this.itemkeyword) !== -1)
+        return result
+      },
+      filteredAbilityJsonData(){
+        let vm = this;
+        let selectedAbility = [];
+        let result = [];
+        for (let i = 0; i < vm.selectedStat.abilities.length; i++) {
+          selectedAbility.push(vm.selectedStat.abilities[i].ability.name)
+        }
+        for (let j = 0; j < selectedAbility.length; j++) {
+          for (let k = 0; k < vm.abilityJsonData.data.length; k++) {
+            let alteredData = vm.abilityJsonData.data[k].lower.replace(" ","-")
+            if (alteredData == selectedAbility[j]) {
+              result.push(vm.abilityJsonData.data[k].cht)
+            }
+          } 
+        }
+        return result;
       },
       getHP() {
         let vm = this;
@@ -274,16 +344,32 @@
 					val > 100 && (this.level = 100);
         }
       },
-      "filteredJsonData" : {
+      "filteredpmJsonData" : {
         handler: function (val) {
           if (val.length != 0) {
             this.selectedPM = val[0].jsonid;
           }
         }
+      },
+      "filteredItemJsonData" : {
+        handler: function (val) {
+          if (val.length != 0) {
+            this.selectedItem = val[0].cht;
+          }
+        }
+      },
+      "filteredAbilityJsonData" : {
+        handler: function (val) {
+          if (val.length != 0) {
+            this.ability = val[0];
+          }
+        }
       }
     },
     mounted() {
-      this.getJson(this.jsonUrl);
+      this.getJson(this.pmJsonUrl);
+      this.getJson(this.itemJsonUrl);
+      this.getJson(this.abilityJsonUrl);
     }
   };
 </script>
@@ -343,17 +429,13 @@
   .inner_wrap {
     display: flex;
     flex: 1;
-    justify-content:center;
+    justify-content:space-around;
     width: 100%;
     margin-top: .25rem;
     align-items: center;
   }
 
-  .inner_wrap>div:not(:first-child) {
-    margin-left: 1rem;
-  }
-
-  .keyword {
+  .pmkeyword {
     padding: 0;
     border: 0;
     margin: 0;
@@ -362,6 +444,10 @@
     font-size: 1rem;
     font-style: italic;
     border-radius: 0;
+  }
+
+  .select-sm {
+    width: 7.5rem;
   }
 
   .selectedPM {
