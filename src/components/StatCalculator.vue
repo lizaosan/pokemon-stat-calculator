@@ -103,11 +103,13 @@
         </tr>
       </tbody>
     </table>
-    <small class="ev_details">
-      努力值總計 <span>{{EVSum}}</span> / 剩餘努力值 <span>{{EVLast}}</span>
-    </small>
-    <div class="reset_btn">
-     <button @click="resetAll">重置</button>
+    <div class="inner_wrap">
+      <small class="ev_details">
+        努力值總計 <span>{{EVSum}}</span> / 剩餘努力值 <span>{{EVLast}}</span>
+      </small>
+      <div class="reset_btn">
+      <button @click="resetAll">重置</button>
+      </div>
     </div>
     <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.</small>
   </main>
@@ -322,7 +324,7 @@
   .container {
     display: flex;
     flex-direction: column;
-    max-width: 36rem;
+    max-width: 30rem;
     margin: 0 auto;
   }
 
@@ -344,6 +346,7 @@
     justify-content:center;
     width: 100%;
     margin-top: .25rem;
+    align-items: center;
   }
 
   .inner_wrap>div:not(:first-child) {
@@ -364,14 +367,6 @@
   .selectedPM {
     width: 15rem;
     margin-inline-start: 1rem;
-  }
-
-  .ev_details {
-    margin-top: 1rem;
-  }
-
-  .reset_btn {
-    margin-top: 1rem;
   }
 
   .text_red {
