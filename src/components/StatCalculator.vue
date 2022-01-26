@@ -186,7 +186,13 @@
     computed: {
       filteredJsonData() {
         let vm = this;
-        let answer = vm.jsonData.data.filter(obj => obj.cht.indexOf(this.keyword) === 0)
+        let answer = null;
+        let tags = ["超級", "超極巨", "阿羅拉", "伽勒爾"];
+        if (tags.includes(this.keyword)) {
+          answer = vm.jsonData.data.filter(obj => obj.cht.indexOf(this.keyword) !== -1)
+        } else {
+          answer = vm.jsonData.data.filter(obj => obj.cht.indexOf(this.keyword) === 0)
+        }
         return answer
       },
       getHP() {
