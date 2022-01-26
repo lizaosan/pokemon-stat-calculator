@@ -109,6 +109,7 @@
     <div class="reset_btn">
      <button @click="resetAll">重置</button>
     </div>
+    <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.</small>
   </main>
 </template>
 
@@ -381,5 +382,11 @@
     color: #007bff;
   }
 
-
+  .copyright {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
 </style>
