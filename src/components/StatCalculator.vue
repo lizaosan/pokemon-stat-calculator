@@ -154,7 +154,7 @@
       </div>
     </div>
 
-    <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.<br> Last Updated: 2022/01/27 17:28</small>
+    <!-- <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.<br> Last Updated: 2022/01/27 17:28</small> -->
   </main>
   
 </template>
@@ -289,7 +289,10 @@
       },
       generatorImage () {
         let vm = this;
-        html2canvas(this.$refs.capture).then(canvas => { 
+        html2canvas(this.$refs.capture,{
+          allowTaint: true,
+          useCORS: true
+        }).then(canvas => { 
           let link = document.createElement('a');
           link.href = canvas.toDataURL();
           link.setAttribute('download', vm.selectedStat.name);
