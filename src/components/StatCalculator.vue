@@ -42,7 +42,6 @@
           <span>特性</span>
           <!-- <input v-model="level" type="number" min="1" max="100" /> -->
           <select class="select-sm" v-model="ability">
-            <option>請選擇</option>
             <option v-for="(item, index) in filteredAbilityJsonData" :key="index + 1" :value="item">{{ item }}</option>
           </select>
         </div>
@@ -140,17 +139,32 @@
     </table>
     <div class="inner_wrap">
       <div class="reset_btn">
+        <button @click="generatorImage">截圖</button>&nbsp;
         <button @click="resetAll">重置</button>
       </div>
     </div>
-    <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.<br> Last Updated: 2022/01/27 14:02</small>
+
+    <div class="card_maker" ref="capture">
+      <div class="card_wrapper">
+        <div class="card_sprite">
+          <img :src="selectedStat.sprites.front_default" alt="card_sprite">
+        </div>
+        <div class="card_info">
+          <div class="card_row"></div>
+        </div>
+      </div>
+    </div>
+
+    <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.<br> Last Updated: 2022/01/27 16:27</small>
   </main>
+  
 </template>
 
 <script>
   import individualValue from "./IndividualValue.vue";
   import effortValue from "./EffortValue.vue";
   import MoveSelector from './moveSelector.vue';
+  import html2canvas from 'html2canvas';
 
   export default {
     name: 'statCalculator',
@@ -211,7 +225,8 @@
         selectedItem: "",
         selectedStat: {
           stats: [{base_stat: 45},{base_stat: 49},{base_stat: 49},{base_stat: 65},{base_stat: 65},{base_stat: 45},],
-          abilities:[{ability:{name:"overgrow"}},{ability:{name:"chlorophyll"}}]
+          abilities:[{ability:{name:"overgrow"}},{ability:{name:"chlorophyll"}}],
+          sprites:{back_default:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/815.png"}
         },
         userIV: [31, 31, 31, 31, 31, 31],
         userEV: [0, 0, 0, 0, 0, 0],
@@ -271,6 +286,17 @@
       },
       updateMove(val, order) {
         this.userMove[order] = val;
+      },
+      generatorImage () {
+        let vm = this;
+        html2canvas(this.$refs.capture).then(canvas => { 
+          let link = document.createElement('a');
+          link.href = canvas.toDataURL();
+          link.setAttribute('download', vm.selectedStat.name);
+          // link.style.display = 'none';
+          document.body.appendChild(link);
+          link.click();
+        })
       },
     },
     computed: {
@@ -503,6 +529,60 @@
 
   .text_blue {
     color: #007bff;
+  }
+
+  .card_maker {
+    margin-top: 0.5rem;
+    background-color: #D0D0D0;
+    border-radius: 0.25rem;
+    position: relative;
+    padding: 0.12rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .card_wrapper {
+    border: #adadad 2px solid;
+    background-color: #f0f0f0;
+    height: 14rem;
+    border-radius: 0.25rem;
+    position: relative;
+  }
+
+  .card_sprite {
+    width: 9rem;
+    height: 9rem;
+    background-color: #fff;
+    border-radius: 999rem;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 1rem;
+    margin: auto;
+    z-index: 1;
+  }
+
+  .card_sprite img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+
+  }
+
+  .card_info {
+    background-color: #FFE153;
+    width: 100%;
+    height: 12rem;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    border: 2px solid #fff;
+    border-left: none;
+    border-right: none;
   }
 
   .copyright {
