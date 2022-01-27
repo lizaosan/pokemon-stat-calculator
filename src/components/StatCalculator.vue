@@ -449,6 +449,7 @@
   h1 {
     font-size: 1.75rem;
     font-weight: bold;
+    margin: 0.5em 0;
   }
 
   input {
@@ -504,6 +505,10 @@
     width: 100%;
     margin: .25rem 0;
     align-items: center;
+  }
+
+  .inner_wrap:first-child {
+    margin-top: 0; 
   }
 
   .pmkeyword {
