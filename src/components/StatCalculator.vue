@@ -39,6 +39,14 @@
           </select>
         </div>
         <div>
+          <span>特性</span>
+          <!-- <input v-model="level" type="number" min="1" max="100" /> -->
+          <select class="select-sm" v-model="ability">
+            <option>請選擇</option>
+            <option v-for="(item, index) in filteredAbilityJsonData" :key="index + 1" :value="item">{{ item }}</option>
+          </select>
+        </div>
+        <div>
           <span>性格</span>
           <select class="select-sm" v-model="nature">
             <option :value="0">不加不減</option>
@@ -62,14 +70,6 @@
             <option :value="52">+S-B 急躁</option>
             <option :value="53">+S-C 爽朗</option>
             <option :value="54">+S-D 天真</option>
-          </select>
-        </div>
-        <div>
-          <span>特性</span>
-          <!-- <input v-model="level" type="number" min="1" max="100" /> -->
-          <select class="select-sm" v-model="ability">
-            <option>請選擇</option>
-            <option v-for="(item, index) in filteredAbilityJsonData" :key="index + 1" :value="item">{{ item }}</option>
           </select>
         </div>
       </div>
@@ -130,10 +130,10 @@
         <tr>
           <td>招式</td>
           <td colspan="4" class="moves">
-            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>&nbsp;
-            <moveSelector :parent-moves="selectedStat.moves"></moveSelector><br>
-            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>&nbsp;
-            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>
+            <moveSelector :parent-moves="userMove[0]" move-order="0" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector>&nbsp;
+            <moveSelector :parent-moves="userMove[1]" move-order="1" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector><br>
+            <moveSelector :parent-moves="userMove[2]" move-order="2" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector>&nbsp;
+            <moveSelector :parent-moves="userMove[3]" move-order="3" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector>
           </td>
         </tr>
       </tbody>
@@ -143,7 +143,7 @@
         <button @click="resetAll">重置</button>
       </div>
     </div>
-    <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.</small>
+    <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.<br> Last Updated: 2022/01/27 14:02</small>
   </main>
 </template>
 
@@ -196,6 +196,17 @@
             }
           ]
         },
+        moveJsonUrl: "json/move-json.json",
+        moveJsonData : {
+          "data": [
+            {
+                "index": "1",
+                "cht": "拍擊",
+                "jp": "はたく",
+                "en": "Pound"
+            }
+          ]
+        },
         selectedPM: "1",
         selectedItem: "",
         selectedStat: {
@@ -204,6 +215,7 @@
         },
         userIV: [31, 31, 31, 31, 31, 31],
         userEV: [0, 0, 0, 0, 0, 0],
+        userMove: ["","","",""],
         level: 50,
         sex: "♂",
         sexList: ["♂","♀","X"],
@@ -229,6 +241,8 @@
               vm.itemJsonData = msg;
             } else if (uri == vm.abilityJsonUrl) {
               vm.abilityJsonData = msg;
+            } else if (uri == vm.moveJsonUrl) {
+              vm.moveJsonData = msg;
             }
           });
       },
@@ -254,6 +268,9 @@
       },
       updateEV(val, order) {
         this.userEV[order] = val;
+      },
+      updateMove(val, order) {
+        this.userMove[order] = val;
       },
     },
     computed: {
@@ -393,6 +410,7 @@
       this.getJson(this.pmJsonUrl);
       this.getJson(this.itemJsonUrl);
       this.getJson(this.abilityJsonUrl);
+      this.getJson(this.moveJsonUrl);
     }
   };
 </script>
@@ -427,7 +445,8 @@
   }
 
   table {
-    table-layout : fixed;
+    table-layout: fixed;
+    word-wrap:break-word;
   }
 
   .container {
@@ -484,10 +503,6 @@
 
   .text_blue {
     color: #007bff;
-  }
-
-  .moves select:not(:first-child) {
-    margin-left: 0.5rem;
   }
 
   .copyright {

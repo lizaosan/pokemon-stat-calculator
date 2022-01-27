@@ -1,28 +1,28 @@
 <template>
-  <!-- <select v-model="move">
-    <option v-for="(item, index) in parentMoves" :key="index"> {{ item.move.name }}</option>
-  </select> -->
-  <input class="moveInput" name="teleplay" list="teleplay_list"/>
+  <input class="moveInput" name="teleplay" list="teleplay_list" v-model="chosenMove"/>
   <datalist id="teleplay_list">
-    <option v-for="(item, index) in testList" :key="index + 1" :value="item"/>
+    <option v-for="(item, index) in parentMovedata" :key="index + 1" :data-value="item.cht"> {{ item.cht}} </option>
   </datalist>
 
 </template>
 <script>
   export default {
     name: "moveSelector",
-    props: ["parentMoves"],
+    emits: ["updateMove"],
+    props: ["parentMoves", "parentMovedata", "moveOrder"],
     data() {
       return {
-        move: "try",
+        chosenMove: "",
         moves: this.parentMoves,
-        testList: [
-          "招式測試 1",
-          "招式測試 2",
-          "招式測試 3",
-          "招式測試 4",
-          "招式測試 5",
-        ]
+        order: this.moveOrder,
+        data: this.parentMovedata,
+      }
+    },
+    watch: {
+      chosenMove: {
+        handler(val) {
+          this.$emit('updateMove', val, this.order);
+        }
       }
     }
   }
@@ -32,7 +32,7 @@
   .moveInput {
     padding: 0;
     margin: 0;
-    width: 7.5rem;
-    margin-top: 0.1rem;
+    width: 10rem;
+    margin-top: 0.25rem;
   }
 </style>
