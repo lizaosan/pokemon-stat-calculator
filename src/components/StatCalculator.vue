@@ -10,6 +10,12 @@
               {{ item.ndex }} {{ item.cht }}</option>
           </select>
         </div>
+        <div>
+          <span>性別</span>
+          <select v-model="sex">
+            <option v-for="(item, index) in sexList" :key="index + 1">{{ item }}</option>
+          </select>
+        </div>
       </div>
       <div class="inner_wrap">
         <div>
@@ -18,18 +24,18 @@
             <option v-for="(item, index) in filteredItemJsonData" :key="index" :value="item.cht">{{ item.cht }}</option>
           </select>
         </div>
+        <div>
+          <span>異色</span>
+          <select v-model="isShiny">
+            <option v-for="(item, index) in shinyList" :key="index + 1">{{ item }}</option>
+          </select>
+        </div>
       </div>
       <div class="inner_wrap">
         <div>
           <span>Lv</span>
           <select v-model="level">
             <option v-for="(item, index) in 100" :key="index + 1">{{index + 1 }}</option>
-          </select>
-        </div>
-        <div>
-          <span>性別</span>
-          <select v-model="sex">
-            <option v-for="(item, index) in sexList" :key="index + 1">{{ item }}</option>
           </select>
         </div>
         <div>
@@ -62,6 +68,7 @@
           <span>特性</span>
           <!-- <input v-model="level" type="number" min="1" max="100" /> -->
           <select class="select-sm" v-model="ability">
+            <option>請選擇</option>
             <option v-for="(item, index) in filteredAbilityJsonData" :key="index + 1" :value="item">{{ item }}</option>
           </select>
         </div>
@@ -123,9 +130,9 @@
         <tr>
           <td>招式</td>
           <td colspan="4" class="moves">
-            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>
-            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>
-            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>
+            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>&nbsp;
+            <moveSelector :parent-moves="selectedStat.moves"></moveSelector><br>
+            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>&nbsp;
             <moveSelector :parent-moves="selectedStat.moves"></moveSelector>
           </td>
         </tr>
@@ -200,6 +207,8 @@
         level: 50,
         sex: "♂",
         sexList: ["♂","♀","X"],
+        isShiny: "X",
+        shinyList: ["O","X"],
         nature: "0",
         naturePatch: [1, 1, 1, 1, 1],
         ability: "茂盛",
