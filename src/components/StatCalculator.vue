@@ -130,10 +130,10 @@
         <tr>
           <td>招式</td>
           <td colspan="4" class="moves">
-            <moveSelector :parent-moves="userMove[0]" move-order="0" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector>&nbsp;
-            <moveSelector :parent-moves="userMove[1]" move-order="1" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector><br>
-            <moveSelector :parent-moves="userMove[2]" move-order="2" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector>&nbsp;
-            <moveSelector :parent-moves="userMove[3]" move-order="3" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector>
+            <moveSelector :parent-moves="userMove[0]" move-order="0" :parent-movedata="moveJsonData.data" @updateMove="updateMove" :key="resetFrequency"></moveSelector>&nbsp;
+            <moveSelector :parent-moves="userMove[1]" move-order="1" :parent-movedata="moveJsonData.data" @updateMove="updateMove" :key="resetFrequency"></moveSelector><br>
+            <moveSelector :parent-moves="userMove[2]" move-order="2" :parent-movedata="moveJsonData.data" @updateMove="updateMove" :key="resetFrequency"></moveSelector>&nbsp;
+            <moveSelector :parent-moves="userMove[3]" move-order="3" :parent-movedata="moveJsonData.data" @updateMove="updateMove" :key="resetFrequency"></moveSelector>
           </td>
         </tr>
       </tbody>
@@ -143,7 +143,7 @@
         <button @click="resetAll">重置</button>
       </div>
     </div>
-    <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.<br> Last Updated: 2022/01/27 14:02</small>
+    <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.<br> Last Updated: 2022/01/27 15:00</small>
   </main>
 </template>
 
@@ -261,6 +261,7 @@
         this.nature = "0";
         this.$data.userIV = this.$options.data().userIV;
         this.$data.userEV = this.$options.data().userEV;
+        this.$data.userMove = this.$options.data().userMove;
         this.resetFrequency += 1;
       },
       updateIV(val, order) {
