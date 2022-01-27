@@ -10,24 +10,12 @@
               {{ item.ndex }} {{ item.cht }}</option>
           </select>
         </div>
-        <div>
-          <span>性別</span>
-          <select v-model="sex">
-            <option v-for="(item, index) in sexList" :key="index + 1">{{ item }}</option>
-          </select>
-        </div>
       </div>
       <div class="inner_wrap">
         <div>
           <input class="pmkeyword" type="text" placeholder="搜尋道具" v-model="itemkeyword">
           <select class="selectedPM" v-model="selectedItem">
             <option v-for="(item, index) in filteredItemJsonData" :key="index" :value="item.cht">{{ item.cht }}</option>
-          </select>
-        </div>
-        <div>
-          <span>異色</span>
-          <select v-model="isShiny">
-            <option v-for="(item, index) in shinyList" :key="index + 1">{{ item }}</option>
           </select>
         </div>
       </div>
@@ -38,6 +26,20 @@
             <option v-for="(item, index) in 100" :key="index + 1">{{index + 1 }}</option>
           </select>
         </div>
+        <div>
+          <span>性別</span>
+          <select v-model="sex">
+            <option v-for="(item, index) in sexList" :key="index + 1">{{ item }}</option>
+          </select>
+        </div>
+        <div>
+          <span>異色</span>
+          <select v-model="isShiny">
+            <option v-for="(item, index) in shinyList" :key="index + 1">{{ item }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="inner_wrap">
         <div>
           <span>特性</span>
           <!-- <input v-model="level" type="number" min="1" max="100" /> -->
