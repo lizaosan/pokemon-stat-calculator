@@ -129,10 +129,10 @@
         <tr>
           <td>招式</td>
           <td colspan="4" class="moves">
-            <moveSelector :parent-moves="userMove[0]" move-order="0" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector>&nbsp;
-            <moveSelector :parent-moves="userMove[1]" move-order="1" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector><br>
-            <moveSelector :parent-moves="userMove[2]" move-order="2" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector>&nbsp;
-            <moveSelector :parent-moves="userMove[3]" move-order="3" :parent-movedata="moveJsonData.data" @updateMove="updateMove"></moveSelector>
+            <moveSelector :parent-moves="userMove[0]" move-order="0" :parent-movedata="moveJsonData.data" @updateMove="updateMove" :key="resetFrequency"></moveSelector>&nbsp;
+            <moveSelector :parent-moves="userMove[1]" move-order="1" :parent-movedata="moveJsonData.data" @updateMove="updateMove" :key="resetFrequency"></moveSelector><br>
+            <moveSelector :parent-moves="userMove[2]" move-order="2" :parent-movedata="moveJsonData.data" @updateMove="updateMove" :key="resetFrequency"></moveSelector>&nbsp;
+            <moveSelector :parent-moves="userMove[3]" move-order="3" :parent-movedata="moveJsonData.data" @updateMove="updateMove" :key="resetFrequency"></moveSelector>
           </td>
         </tr>
       </tbody>
@@ -143,7 +143,6 @@
         <button @click="resetAll">重置</button>
       </div>
     </div>
-
     <div class="card_maker" ref="capture">
       <div class="card_wrapper">
         <div class="card_sprite">
@@ -155,7 +154,7 @@
       </div>
     </div>
 
-    <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.<br> Last Updated: 2022/01/27 16:27</small>
+    <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.<br> Last Updated: 2022/01/27 17:28</small>
   </main>
   
 </template>
@@ -276,6 +275,7 @@
         this.nature = "0";
         this.$data.userIV = this.$options.data().userIV;
         this.$data.userEV = this.$options.data().userEV;
+        this.$data.userMove = this.$options.data().userMove;
         this.resetFrequency += 1;
       },
       updateIV(val, order) {
@@ -533,7 +533,7 @@
 
   .card_maker {
     margin-top: 0.5rem;
-    background-color: #D0D0D0;
+    background-color: #FFE153;
     border-radius: 0.25rem;
     position: relative;
     padding: 0.12rem;
@@ -542,8 +542,8 @@
   }
 
   .card_wrapper {
-    border: #adadad 2px solid;
-    background-color: #f0f0f0;
+    border: #EAC100 2px solid;
+    background-color: #FFF0AC;
     height: 14rem;
     border-radius: 0.25rem;
     position: relative;
