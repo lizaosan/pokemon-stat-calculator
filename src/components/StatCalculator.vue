@@ -21,10 +21,15 @@
       </div>
       <div class="inner_wrap">
         <div>
-          <span>等級</span>
-          <!-- <input v-model="level" type="number" min="1" max="100" /> -->
+          <span>Lv</span>
           <select v-model="level">
             <option v-for="(item, index) in 100" :key="index + 1">{{index + 1 }}</option>
+          </select>
+        </div>
+        <div>
+          <span>性別</span>
+          <select v-model="sex">
+            <option v-for="(item, index) in sexList" :key="index + 1">{{ item }}</option>
           </select>
         </div>
         <div>
@@ -68,7 +73,7 @@
           <th>項目</th>
           <th>種族值</th>
           <th>個體值</th>
-          <th>努力值</th>
+          <th width="90rem">努力值<br><small><span>{{EVSum}}</span> / <span>{{EVLast}}</span></small></th>
           <th>能力值</th>
         </tr>
       </thead>
@@ -115,14 +120,20 @@
           <effortValue :parent-msg="userEV[5]" ev-order="5" @update="updateEV" :key="resetFrequency"></effortValue>
           <td :class="{'text_red': naturePatch[4] == 1.1 , 'text_blue' : naturePatch[4] == 0.9}">{{getSpd}}</td>
         </tr>
+        <tr>
+          <td>招式</td>
+          <td colspan="4" class="moves">
+            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>
+            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>
+            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>
+            <moveSelector :parent-moves="selectedStat.moves"></moveSelector>
+          </td>
+        </tr>
       </tbody>
     </table>
     <div class="inner_wrap">
-      <small class="ev_details">
-        努力值總計 <span>{{EVSum}}</span> / 剩餘努力值 <span>{{EVLast}}</span>
-      </small>
       <div class="reset_btn">
-      <button @click="resetAll">重置</button>
+        <button @click="resetAll">重置</button>
       </div>
     </div>
     <small class="copyright">Copyright © 2022 Lizaosan. All rights reserved.</small>
@@ -132,11 +143,12 @@
 <script>
   import individualValue from "./IndividualValue.vue";
   import effortValue from "./EffortValue.vue";
+  import MoveSelector from './moveSelector.vue';
 
   export default {
     name: 'statCalculator',
     components: {
-      individualValue, effortValue
+      individualValue, effortValue, MoveSelector
     },
     data() {
       return {
@@ -186,6 +198,8 @@
         userIV: [31, 31, 31, 31, 31, 31],
         userEV: [0, 0, 0, 0, 0, 0],
         level: 50,
+        sex: "♂",
+        sexList: ["♂","♀","X"],
         nature: "0",
         naturePatch: [1, 1, 1, 1, 1],
         ability: "茂盛",
@@ -399,12 +413,12 @@
     -moz-appearance: textfield;
   }
 
-  table {
-    margin-top: 0.36rem;
-  }
-
   tr {
     height: 1.5rem;
+  }
+
+  table {
+    table-layout : fixed;
   }
 
   .container {
@@ -431,7 +445,7 @@
     flex: 1;
     justify-content:space-around;
     width: 100%;
-    margin-top: .25rem;
+    margin: .25rem 0;
     align-items: center;
   }
 
@@ -461,6 +475,10 @@
 
   .text_blue {
     color: #007bff;
+  }
+
+  .moves select:not(:first-child) {
+    margin-left: 0.5rem;
   }
 
   .copyright {

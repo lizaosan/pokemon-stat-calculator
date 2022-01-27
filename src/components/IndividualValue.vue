@@ -1,6 +1,5 @@
 <template>
   <td>
-    <!-- <input v-model="iv" type="number" min="0" max="31" maxlength="2" /> -->
     <select v-model="iv">
       <option v-for="(item, index) in 32" :key="index">{{index}}</option>
     </select>
